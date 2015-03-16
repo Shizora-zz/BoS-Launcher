@@ -1,0 +1,52 @@
+﻿<Controls:MetroWindow x:Class="BoS_Launcher.Items.Nickname"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p="clr-namespace:BoS_Launcher.Properties"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="Nickname"  ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="5,5,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock VerticalAlignment="Center" Text="Chat-Nickname:" Margin="5" Grid.Column="0" Grid.Row="0"></TextBlock>
+        <TextBox Margin="5" Text="{Binding Source={x:Static p:Settings.Default}, Path=Nickname}" Name="tbNickname" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"  Height="23" TextWrapping="Wrap" Width="154"/>
+        <Button Margin="5" Grid.Column="2" Grid.Row="0" ToolTip="This name is displayed in BoS Launcher chatlobby - due to restriction of chat protocol (IRC) not all characters are possible">
+            <Rectangle  Width="15" Height="15" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_question}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+
+        <TextBlock VerticalAlignment="Center" Margin="5" Text="BoS-Nickname:" Grid.Column="0" Grid.Row="1"></TextBlock>
+        <TextBox Margin="5" Name="tbUsername" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  Height="23" TextWrapping="Wrap" Text="{Binding Source={x:Static p:Settings.Default}, Path=Username}" Width="154"/>
+        <Button Margin="5" Grid.Column="2" Grid.Row="1" ToolTip="Your exact BoS-ingame nickname (incl. squadron tag). It is used to find you on a server">
+            <Rectangle  Width="15" Height="15"  Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_question}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+
+        <Button Grid.Column="1" Margin="5" Grid.Row="2" HorizontalAlignment="Left" Name="btnNickname" Content="Save"  Width="94" Click="btnNickname_Click"/>
+    </Grid>
+
+</Controls:MetroWindow>

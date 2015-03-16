@@ -1,0 +1,222 @@
+﻿<Controls:MetroWindow xmlns:awe="http://schemas.awesomium.com/winfx"    x:Class="BoS_Launcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:Items="clr-namespace:BoS_Launcher.Items"
+        xmlns:p="clr-namespace:BoS_Launcher.Properties"
+        xmlns:l="clr-namespace:BoS_Launcher"  
+        ShowWindowCommandsOnTop="True"    
+        Height="{Binding WindowHeight, Source={x:Static p:Settings.Default}, Mode=TwoWay}" 
+        Width="{Binding WindowWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}"
+        Left="{Binding WindowLeft, Source={x:Static p:Settings.Default}, Mode=TwoWay}"
+        Top="{Binding WindowTop, Source={x:Static p:Settings.Default}, Mode=TwoWay}"
+        Title="BoS Launcher" MinHeight="500" MinWidth="450"  Icon="Resources/Images/icon.png"  ShowIconOnTitleBar="True" Closing="MetroWindow_Closing" ContentRendered="MetroWindow_ContentRendered" >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <l:FlightStateConverter x:Key="FlightStateConverter" />
+            <l:DateTimeConverter x:Key="DateTimeConverter" />
+            <l:EmptyValueConverter x:Key="EmptyValueConverter" />
+            <l:FlightStateToImageConverter x:Key="FlightStateToImageConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Click="Button_Click">
+                <Button.ToolTip>
+                    <ToolTip Content="About" />
+                </Button.ToolTip>
+                <Rectangle Width="20" Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button Click="btnSettings_Click">
+                <Button.ToolTip>
+                    <ToolTip Content="Settings" />
+                </Button.ToolTip>
+                <Rectangle Width="20" Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands>
+            <Button Name="btnTeamspeak" Click="btnTeamspeak_Click">
+                <Button.ToolTip>
+                    <ToolTip Content="Show Teamspeak Server" />
+                </Button.ToolTip>
+                <Rectangle Width="20" Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_microphone}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button Name="btnRefresh" Click="btnRefresh_Click">
+                <Button.ToolTip>
+                    <ToolTip Content="Refresh Server List" />
+                </Button.ToolTip>
+                <Rectangle Width="20" Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button Name="btnLaunch" Click="btnLaunchGame_Click">
+                <Button.ToolTip>
+                    <ToolTip Content="Launch IL-2" />
+                </Button.ToolTip>
+                <Rectangle Width="20" Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_plane_rotated_45}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
+
+
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout Theme="Inverse" MaxWidth="350" Position="Right" Header="Settings" Name="flySettings" IsModal="True" IsPinned="False">
+                <Grid Margin="5,5,5,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel VerticalAlignment="Top" Grid.Row="0">
+                        <Controls:ToggleSwitch Margin="0,0,0,10" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=AutoUpdate}" Name="tsAutoupdate" OnLabel="On" OffLabel="Off" Header="Autorefresh" Click="tsAutoupdate_Click">
+                            <Controls:ToggleSwitch.ToolTip>
+                                <ToolTip Content="Updates the serverlist every 20 seconds"/>
+                            </Controls:ToggleSwitch.ToolTip>
+                        </Controls:ToggleSwitch>
+                        <Controls:ToggleSwitch Margin="0,0,0,10"  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=LaunchHeadtracker}" Name="tsCheckTrackIR" OnLabel="On" OffLabel="Off" Header="Autostart Headtracker" Click="tsCheckTrackIR_Click">
+                            <Controls:ToggleSwitch.ToolTip>
+                                <ToolTip Content="Automaticly starts Headtracker if not already started"/>
+                            </Controls:ToggleSwitch.ToolTip>
+                        </Controls:ToggleSwitch>
+                        <Controls:ToggleSwitch Margin="0,0,0,10"  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=CloseHeadtracker}" Name="tsCloseTrackIR" OnLabel="On" OffLabel="Off" Header="Exit Headtracker" Click="tsCloseTrackIR_Click">
+                            <Controls:ToggleSwitch.ToolTip>
+                                <ToolTip Content="Closes Headtracker with BoS Launcher"/>
+                            </Controls:ToggleSwitch.ToolTip>
+                        </Controls:ToggleSwitch>
+                        <Controls:ToggleSwitch Margin="0,0,0,10"  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=PlayNotification}" Name="tsPlayNotification" OnLabel="On" OffLabel="Off" Header="Play Notification Sound" Click="tsPlayNotification_Click">
+                            <Controls:ToggleSwitch.ToolTip>
+                                <ToolTip Content="Plays notification sound when receiving private message and window is in background"/>
+                            </Controls:ToggleSwitch.ToolTip>
+                        </Controls:ToggleSwitch>
+                    </StackPanel>
+                    <Grid VerticalAlignment="Bottom" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="Chat-Nickname:"></Label>
+                        <Button Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Stretch"  Name="btnChangeNickname" Click="btnChangeNickname_Click">
+                            <TextBlock Text="{Binding Source={x:Static p:Settings.Default}, Path=Nickname}"></TextBlock>
+                        </Button>
+                        <Label Grid.Column="0" Grid.Row="1" Content="BoS-Nickname:"></Label>
+                        <Button Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Stretch"  Name="btnChangeUsername" Click="btnChangeNickname_Click">
+                            <TextBlock Text="{Binding Source={x:Static p:Settings.Default}, Path=Username}"></TextBlock>
+                        </Button>
+                        <Label Grid.Column="0" Grid.Row="2" Content="IL-2 BoS Launcher Path:"></Label>
+                        <Button Margin="0,0,0,10" Style="{StaticResource AccentedSquareButtonStyle}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" Content="{Binding Source={x:Static p:Settings.Default}, Path=IL2Path, Converter={StaticResource EmptyValueConverter}}" Name="btnSetPath" Click="btnSetPath_Click">
+                            <Button.ToolTip>
+                                <ToolTip Content="{Binding Source={x:Static p:Settings.Default}, Path=IL2Path}"/>
+                            </Button.ToolTip>
+                        </Button>
+                        <Label Grid.Column="0" Grid.Row="3" Content="Headtracker Path:"></Label>
+                        <Button Grid.Column="1" Style="{StaticResource AccentedSquareButtonStyle}" Grid.Row="3" HorizontalAlignment="Stretch" Content="{Binding Source={x:Static p:Settings.Default}, Path=HeadTrackerPath, Converter={StaticResource EmptyValueConverter}}" Name="btnSetHeadtrackerPath" Click="btnSetHeadtrackerPath_Click">
+                            <Button.ToolTip>
+                                <ToolTip Content="{Binding Source={x:Static p:Settings.Default}, Path=HeadTrackerPath}"/>
+                            </Button.ToolTip>
+                        </Button>
+                    </Grid>
+                </Grid>
+
+            </Controls:Flyout>
+
+            <Controls:Flyout Theme="Inverse" MaxWidth="350" Position="Left" Header="Teamspeak" Name="flyTeamspeak" IsModal="True" IsPinned="False">
+                <awe:WebControl Name="awWeb"/>
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+
+
+
+    <Grid>
+
+        <DockPanel LastChildFill="True" DataContext="{Binding Source={x:Static l:DataModel.ServerList}}">
+            <Grid MinWidth="150" VerticalAlignment="Stretch"  Margin="5" DockPanel.Dock="Left">
+                <Border BorderBrush="White" BorderThickness="1">
+                    <ListBox Name="lbPlayer" ItemsSource="{Binding ElementName=dgServer, Path=SelectedItem.players}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" ToolTip="{Binding status, Converter={StaticResource FlightStateConverter}}" ToolTipService.BetweenShowDelay="10" HorizontalAlignment="Stretch" Text="{Binding nameAndPing}" >
+                                    </TextBlock>
+                                    <Image Grid.Column="1" VerticalAlignment="Center"  Height="15" Source="{Binding status, Converter={StaticResource FlightStateToImageConverter}}"></Image>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+            <!--<Items:PlayerList x:Name="ucPlayerList"  Margin="5" DockPanel.Dock="Left"></Items:PlayerList>-->
+            <Items:UserList MinWidth="150" Margin="5" DockPanel.Dock="Right"></Items:UserList>
+            <DataGrid BorderBrush="White" SelectionMode="Single" ItemsSource="{Binding}" BorderThickness="1" Margin="5"  MaxHeight="300" MinHeight="200" DockPanel.Dock="Top" Name="dgServer" IsReadOnly="True" HorizontalContentAlignment="Stretch" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="Auto" Header="Name" Binding="{Binding Path=name}"/>
+                    <DataGridTemplateColumn SortMemberPath="num_players" Width="Auto" Header="Player count">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Name="lblShowTooltip" Text="{Binding num_players}" HorizontalAlignment="Center">
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn SortMemberPath="averagePing" Width="Auto" Header="Ø Player Ping">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding averagePing}" HorizontalAlignment="Center"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="Auto" Header="Last Update (UTC)" Binding="{Binding Path=date_update, Converter={StaticResource DateTimeConverter}}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Items:ChatWindow Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="{Binding ElementName=dgServer, Path=ActualWidth}" DockPanel.Dock="Bottom"></Items:ChatWindow>
+
+        </DockPanel>
+
+
+
+    </Grid>
+</Controls:MetroWindow>

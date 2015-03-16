@@ -1,0 +1,37 @@
+﻿1.32
+- Added BoS-Nickname
+- Status for a user on the right to see on which server he is playing (works only if "BoS-Nickname" ist exactly like your ingame name)
+
+1.31
+- Getting initial players status after connect
+- Official Teamspeak server added
+- Closing a privat chat minimizes main window (fixed)
+
+1.30
+- Teamspeak viewer added
+- Minimal window width increased
+- Mainwindow size and position saving
+- Only allowing one instance of BoS Launcher
+- Player-status added (playing/not playing)
+- Red text for system messages
+
+1.25
+- Support for OpenTrack
+- New serverupdate logic
+- GUI fixes and improvements
+- Playerlist is on the left side in its own list instead on a tooltip over the server
+- No restart required if changing nickname
+- Changing nickname without restart possible
+- Error message if nickname is not valid
+- Underscores not visible in in nickname setting (fixed)
+
+1.20
+- If user leaves server (not channel), he still remains in userlist (fixed)
+- After setting nickname on startup application shuts down (fixed)
+- Added crash reporter (if BoS Launcher crashes you should find a crash report in BoS install directory)
+- Support for TrackIR, FreeTrack and FaceTrackNoIR (set the path to .exe in settings)
+- Added privat chat with sound notification if you want (just double click a contact)
+- New Icon
+
+1.10
+- Added IRC based chatlobby
