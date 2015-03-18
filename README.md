@@ -29,3 +29,7 @@ Newtonsoft.Json -> https://github.com/JamesNK/Newtonsoft.Json
 Download:
 
 http://goo.gl/y2Fwt7
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Shizora/bos-launcher/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
